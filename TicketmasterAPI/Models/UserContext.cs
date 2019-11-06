@@ -8,12 +8,12 @@ namespace TicketmasterAPI.Models
 {
     public class UserContext : DbContext
     {
-        public DbSet<User> Students { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"data Source =DESKTOP-0M7F4MC\SQLEXPRESS;Initial Catalog=User;Trusted_Connection=True;");
-            //NOTE! I haven't made migrations yet to build out the db. Unsure if we will use the same db for User and API data.
+            optionsBuilder.UseSqlServer(@"data Source =DESKTOP-0M7F4MC\SQLEXPRESS;Initial Catalog=TicketmasterAPI;Trusted_Connection=True;");
+            //Note! I havent run migrations and created this db yet bc I'm unsure if we are going to use the same db for the whole project and just have different tables -sam
         }
     }
 }
