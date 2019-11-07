@@ -16,10 +16,10 @@ namespace TicketmasterAPI.Controllers
 {
     public class HomeController : Controller
     {
-        public string CallEventAPI(string City)
+         public string CallEventAPI(string KeyWord)
         {
             string key = "dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1";
-            HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events.json?size=1&apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1");
+            HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events.json?size=1&apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&keyword="+KeyWord);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
             StreamReader rd = new StreamReader(response.GetResponseStream());
@@ -29,7 +29,7 @@ namespace TicketmasterAPI.Controllers
         public string CallEventDetailsAPI(int Id)
         {
             string key = "dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1";
-            HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events/G5diZfkn0B-bh.json?apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1");
+            HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events/G5diZfkn0B-bh.json?apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&id*");
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
             StreamReader rd = new StreamReader(response.GetResponseStream());
@@ -37,21 +37,27 @@ namespace TicketmasterAPI.Controllers
             return APIText;
 
         }
-        public JToken Parseticketmaster(string text)
+         public JToken Parseticketmaster(string text)
         {
             JToken output = JToken.Parse(text);
             return output;
         }
-        public IActionResult EvSearch(string City)
+        public IActionResult EvSearch()
         {
-            string text = CallEventAPI(City);
-            JToken t = JToken.Parse(text);
-            EventSearch a = new EventSearch(t);
+            return View();
+        }
+        [HttpPost]
+        public IActionResult EvSearch(string KeyWord)
+        {
+           string text = CallEventAPI(KeyWord);
+          JToken t = JToken.Parse(text);
+           EventSearch a = new EventSearch(t);
 
             return View(a);
         }
         public IActionResult EvDetail(int Id)
         {
+            
             string text = CallEventDetailsAPI(Id);
             JToken t = JToken.Parse(text);
             EventDetails d = new EventDetails(t);
