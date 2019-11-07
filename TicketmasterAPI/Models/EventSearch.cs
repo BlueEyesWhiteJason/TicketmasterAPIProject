@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 namespace TicketmasterAPI.Models
 {
     public class EventSearch
-    {
-        [Key]
+    { [Key]
         public int Id { get; set; }
-        public string PostalCode { get; set; }
+        public string KeyWord { get; set; }
 
 
         public EventSearch()
@@ -21,9 +20,7 @@ namespace TicketmasterAPI.Models
         public EventSearch(JToken t)
         {
             //this.Id = int.Parse(t["id"].ToString());
-            this.PostalCode = t["postalCode"].ToString();
-
-
+            this.KeyWord = t["keyword"].ToString();
         }
     }
 }
