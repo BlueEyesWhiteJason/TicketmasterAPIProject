@@ -19,7 +19,6 @@ namespace TicketmasterAPI.Models
         }
         public EventSearch(JToken t)
         {
-            //this.Id = int.Parse(t["id"].ToString());
             this.KeyWord = t["keyword"].ToString();
         }
     }

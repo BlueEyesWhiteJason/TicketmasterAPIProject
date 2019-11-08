@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using TicketmasterAPI.Models;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json.Linq;
 
 
 namespace TicketmasterAPI.Controllers
@@ -15,6 +18,7 @@ namespace TicketmasterAPI.Controllers
     public class HomeController : Controller
     {
          public string CallEventAPI(string KeyWord)
+
         {
             string key = "dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1";
             HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events.json?size=1&apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&keyword="+KeyWord);
