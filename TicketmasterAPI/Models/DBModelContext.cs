@@ -16,5 +16,8 @@ namespace TicketmasterAPI.Models
             string connectionString = "Server=.\\SQLExpress;Database=TicketDB;Trusted_Connection=True;";
             optionsBuilder.UseSqlServer(connectionString);
         }
+        public DBModelContext(DbContextOptions<DBModelContext> options)
+    : base(options)
+        { }
     }
 }

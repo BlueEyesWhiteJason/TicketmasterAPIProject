@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using TicketmasterAPI.Models;
 
-namespace TicketmasterAPI.Controllers
+namespace TicketmasterAPI.Models
 {
     public class LoginController : Controller
     {
@@ -44,11 +43,6 @@ namespace TicketmasterAPI.Controllers
 
         // GET: Login/Create
         public IActionResult Create()
-        {
-            return View();
-        }
-
-        public IActionResult Register()
         {
             return View();
         }
