@@ -8,9 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using TicketmasterAPI.Models;
-using System.Net;
-using System.IO;
-using Newtonsoft.Json.Linq;
+
 
 namespace TicketmasterAPI.Controllers
 {
@@ -29,7 +27,7 @@ namespace TicketmasterAPI.Controllers
         public string CallEventDetailsAPI(int Id)
         {
             string key = "dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1";
-            HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events/G5diZfkn0B-bh.json?apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&id*");
+            HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events.json?apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&id=" + Id);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
             StreamReader rd = new StreamReader(response.GetResponseStream());
@@ -55,7 +53,12 @@ namespace TicketmasterAPI.Controllers
 
             return View(a);
         }
-        public IActionResult EvDetail(int Id)
+        public IActionResult EvDetails()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult EvDetails(int Id)
         {
             
             string text = CallEventDetailsAPI(Id);
