@@ -10,28 +10,76 @@ namespace TicketmasterAPI.Models
 {
     public class LoginController : Controller
     {
-        private readonly DBModelContext db;
+        private readonly DBModelContext _context;
 
         public LoginController(DBModelContext context)
         {
-            db = context;
+            _context = context;
         }
 
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(Users u)
+        {
+            if (_context.Users.Contains(u))
+            {
+                ViewBag.Error = "That user already exists";
+                return View();
+            }
+            else
+            {
+                _context.Users.Add(u);
+                _context.SaveChanges();
+                Response.Cookies.Append("username", u.UserName);
+                Response.Cookies.Append("password", u.Password);
+
+                return RedirectToAction("Index", "Login");
+            }
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(string Username, string Password)
+        {
+            List<Users> users = _context.Users.ToList();
+
+            for (int i = 0; i < users.Count; i++)
+            {
+                Users u = users[i];
+                if (u.UserName == Username && u.Password == Password)
+                {
+                    Response.Cookies.Append("username", u.UserName);
+                    return RedirectToAction("Index", "Login");
+                }
+
+            }
+
+            ViewBag.Error = "Incorrect Username or Password. please don't do that ";
+            return View();
+        }
         // GET: Login
         public async Task<IActionResult> Index()
         {
-            return View(await db.Users.ToListAsync());
+            return View(await _context.Users.ToListAsync());
         }
 
         // GET: Login/Details/5
-        public async Task<IActionResult> Details(int? id)
+        /*public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var users = await db.Users
+            var users = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (users == null)
             {
@@ -56,8 +104,8 @@ namespace TicketmasterAPI.Models
         {
             if (ModelState.IsValid)
             {
-                db.Add(users);
-                await db.SaveChangesAsync();
+                _context.Add(users);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(users);
@@ -71,7 +119,7 @@ namespace TicketmasterAPI.Models
                 return NotFound();
             }
 
-            var users = await db.Users.FindAsync(id);
+            var users = await _context.Users.FindAsync(id);
             if (users == null)
             {
                 return NotFound();
@@ -95,8 +143,8 @@ namespace TicketmasterAPI.Models
             {
                 try
                 {
-                    db.Update(users);
-                    await db.SaveChangesAsync();
+                    _context.Update(users);
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -122,7 +170,7 @@ namespace TicketmasterAPI.Models
                 return NotFound();
             }
 
-            var users = await db.Users
+            var users = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (users == null)
             {
@@ -137,15 +185,15 @@ namespace TicketmasterAPI.Models
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var users = await db.Users.FindAsync(id);
-            db.Users.Remove(users);
-            await db.SaveChangesAsync();
+            var users = await _context.Users.FindAsync(id);
+            _context.Users.Remove(users);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+        */
         private bool UsersExists(int id)
         {
-            return db.Users.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.Id == id);
         }
     }
 }
