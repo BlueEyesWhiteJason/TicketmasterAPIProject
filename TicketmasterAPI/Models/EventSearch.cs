@@ -19,8 +19,15 @@ namespace TicketmasterAPI.Models
         }
         public EventSearch(JToken t)
         {
+            List<EventDetails> evt = new List<EventDetails>();
+            foreach (JToken item in t["_embedded"]["events"])
+            {
+                evt.Add(item["name"].ToString());
+
+                
+            }
             //this.Id = int.Parse(t["id"].ToString());
-            this.KeyWord = t["keyword"].ToString();
+            //this.KeyWord = t["keyword"].ToString(); 
         }
     }
 }

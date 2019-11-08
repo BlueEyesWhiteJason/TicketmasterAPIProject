@@ -44,8 +44,8 @@ namespace TicketmasterAPI.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public IActionResult EvSearch(string KeyWord)
+        
+        public IActionResult SearchResult(string KeyWord)
         {
            string text = CallEventAPI(KeyWord);
           JToken t = JToken.Parse(text);
@@ -53,6 +53,7 @@ namespace TicketmasterAPI.Controllers
 
             return View(a);
         }
+       
         public IActionResult EvDetails()
         {
             return View();
