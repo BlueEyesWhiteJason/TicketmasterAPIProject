@@ -23,7 +23,6 @@ namespace TicketmasterAPI.Models
             this.Name = t["name"].ToString();
             this.Type = t["type"].ToString();
             this.Distance = double.Parse(t["distance"].ToString());
-
         }
     }
 }

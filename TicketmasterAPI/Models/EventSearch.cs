@@ -20,6 +20,7 @@ namespace TicketmasterAPI.Models
         public EventSearch(JToken t)
         {
             this.KeyWord = t["keyword"].ToString();
+            
         }
     }
 }

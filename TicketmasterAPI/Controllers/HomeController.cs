@@ -17,10 +17,8 @@ namespace TicketmasterAPI.Controllers
 {
     public class HomeController : Controller
     {
-         public string CallEventAPI(string KeyWord)
-
+        public string CallEventAPI(string KeyWord)
         {
-            string key = "dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1";
             HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events.json?size=1&apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&keyword="+KeyWord);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
@@ -30,7 +28,6 @@ namespace TicketmasterAPI.Controllers
         }
         public string CallEventDetailsAPI(int Id)
         {
-            string key = "dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1";
             HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events.json?apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&id=" + Id);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
@@ -39,7 +36,7 @@ namespace TicketmasterAPI.Controllers
             return APIText;
 
         }
-         public JToken Parseticketmaster(string text)
+        public JToken Parseticketmaster(string text)
         {
             JToken output = JToken.Parse(text);
             return output;
@@ -51,10 +48,9 @@ namespace TicketmasterAPI.Controllers
         [HttpPost]
         public IActionResult EvSearch(string KeyWord)
         {
-           string text = CallEventAPI(KeyWord);
-          JToken t = JToken.Parse(text);
-           EventSearch a = new EventSearch(t);
-
+            string text = CallEventAPI(KeyWord);
+            JToken t = JToken.Parse(text);
+            EventSearch a = new EventSearch(t);
             return View(a);
         }
         public IActionResult EvDetails()
@@ -73,7 +69,6 @@ namespace TicketmasterAPI.Controllers
         }
         public IActionResult Index()
         {
-           
             return View();
         }
 
