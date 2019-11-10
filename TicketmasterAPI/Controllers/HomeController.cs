@@ -11,7 +11,7 @@ using TicketmasterAPI.Models;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
-
+using TicketmasterAPI.Models.TicketmasterAPI.Models;
 
 namespace TicketmasterAPI.Controllers
 {
@@ -46,27 +46,28 @@ namespace TicketmasterAPI.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult EvSearch(string KeyWord)
+        // changed the title of this Action from EvSearch to EvDetails -Sam
+        public IActionResult EvDetail(string KeyWord)
         {
             string text = CallEventAPI(KeyWord);
             JToken t = JToken.Parse(text);
             EventSearch a = new EventSearch(t);
             return View(a);
         }
-        public IActionResult EvDetails()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult EvDetails(int Id)
-        {
+        //public IActionResult EvDetail()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //public IActionResult EvDetail(int Id)
+        //{
             
-            string text = CallEventDetailsAPI(Id);
-            JToken t = JToken.Parse(text);
-            EventDetails d = new EventDetails(t);
+        //    string text = CallEventDetailsAPI(Id);
+        //    JToken t = JToken.Parse(text);
+        //    EventDetails d = new EventDetails(t);
 
-            return View(d);
-        }
+        //    return View(d);
+        //}
         public IActionResult Index()
         {
             return View();
