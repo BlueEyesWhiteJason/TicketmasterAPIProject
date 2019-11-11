@@ -52,6 +52,14 @@ namespace TicketmasterAPI.Controllers
             string text = CallEventAPI(KeyWord);
             JToken t = JToken.Parse(text);
 
+            List<EventDetails> Events = new List<EventDetails>();
+            List<JToken> e = t["_embedded"]["events"].ToList();
+            foreach (JToken x in e)
+            {
+                EventDetails y = new EventDetails(x);
+                Events.Add(y);
+            }
+
             //List<EventDetails> events = new List<EventDetails>();
             //List<JToken> e = t["events"].ToList();
             //foreach(JToken j in e)
@@ -60,9 +68,9 @@ namespace TicketmasterAPI.Controllers
             //    events.Add(x);
             //}
 
-            ViewBag.damn = KeyWord;
-            EventSearch a = new EventSearch(t);
-            return View();
+
+            //EventSearch a = new EventSearch(t);
+            return View(Events);
         }
         //public IActionResult EvDetail()
         //{

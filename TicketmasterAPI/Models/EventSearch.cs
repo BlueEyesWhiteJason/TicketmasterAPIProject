@@ -25,29 +25,14 @@ namespace TicketmasterAPI.Models
             public EventSearch(JToken t)
             {
                 //this.KeyWord = t["keyword"].ToString();
-
                 // Stole this list idea from Tommy's API break out. -Sam <3
                 this.Events = new List<EventDetails>();
                 List<JToken> gigs = t["events"].ToList();
-                foreach(JToken x in gigs)
+                foreach (JToken x in gigs)
                 {
                     EventDetails gig = new EventDetails(x);
-                    //gig.Id = x["id"].ToString();
-                    //gig.Name = x["name"].ToString();
-                    //gig.Type = x["type"].ToString();
-                    //gig.Distance = double.Parse(x["distance"].ToString());
                     Events.Add(gig);
                 }
-
-
-                //foreach(JToken j in t)
-                //{
-                //    EventDetails x = new EventDetails();
-                //    x.Name = j["name"].ToString();
-                //    x.Type = j["type"].ToString();
-                //    x.Distance = double.Parse(t["distance"].ToString());
-                //    this.Events.Add(x);
-                //}
             }
         }
     }
