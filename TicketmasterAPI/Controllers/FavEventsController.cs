@@ -29,11 +29,14 @@ namespace TicketmasterAPI.Models
                 State = state,
                 Url = url
             };
-            _context.Add(e);
+            if (ModelState.IsValid)
+            {
+                _context.Add(e);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(e);
 
-
-
-            return View(await _context.Events.ToListAsync());
         }
 
         // GET: FavEvents
