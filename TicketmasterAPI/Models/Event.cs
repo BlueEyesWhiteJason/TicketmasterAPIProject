@@ -25,8 +25,10 @@ namespace TicketmasterAPI.Models
             //this.Id = int.Parse(t["id"].ToString());
             this.Name = t["name"].ToString();
             this.Url = t["url"].ToString();
-            this.City = t["city"].ToString();
-            this.State = t["state"].ToString();
+            this.City = t["_embedded"]["venues"][0]["city"]["name"].ToString();
+            this.State = t["_embedded"]["venues"][0]["state"]["stateCode"].ToString();
+            this.GenreName = t["classifications"][0]["genre"]["name"].ToString();
+            this.Date = t["classifications"][0]["genre"]["name"].ToString();
 
         }
     }

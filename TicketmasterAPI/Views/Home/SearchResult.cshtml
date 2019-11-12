@@ -1,27 +1,16 @@
-﻿@model List<Event>
+﻿@*@model IEnumerable<TicketmasterAPI.Models.Event>*@
+@model List<Event>
+
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "SearchResult";
 }
-<form action="Home/SearchResult" method="post">
+<form action="SearchResult" method="post">
     <h2>KeyWord</h2>
     <input type="text" name="KeyWord" />
     <input type="submit" />
 </form>
 
-<h1>shoot</h1>
-@ViewBag.count
-
-@foreach (var item in Model)
-{
-    <div>
-        @Html.DisplayFor(modelItem => item.Name)
-    </div>
-}
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -47,10 +36,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    <a href=@item.Url>Event Link</a>
+                    <a href=@item.Url>@Html.DisplayFor(modelItem => item.Name)</a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.City)
@@ -61,9 +47,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.GenreName)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
+
                 <td>
                     @Html.ActionLink("Favorite", "addFavorite", "FavEvents",
                    new
@@ -76,7 +60,6 @@
                             genreName = item.GenreName
                         }, null)
                 </td>
-
             </tr>
         }
     </tbody>
