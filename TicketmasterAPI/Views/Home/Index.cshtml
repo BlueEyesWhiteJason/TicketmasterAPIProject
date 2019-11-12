@@ -48,6 +48,11 @@ pooperdoo
             <td>
                 @Html.DisplayFor(modelItem => item.GenreName)
             </td>
+            <td>
+                @Html.ActionLink("Favorite", "addFavorite", "FavEvents",
+               new { name = item.Name, url=item.Url, city=item.City,
+                   state =item.State, date=item.Date, genreName=item.GenreName }, null)
+            </td>
 
         </tr>
         }
