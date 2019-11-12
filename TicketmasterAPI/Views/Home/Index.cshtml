@@ -1,8 +1,55 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model List<Event>
+
+@{
+    ViewData["Title"] = "Index";
+}
+pooperdoo
+<h1>shoot</h1>
+@ViewBag.count
+
+@foreach (var item in Model)
+{
+    <div>
+        @Html.DisplayFor(modelItem => item.Name)
+    </div>
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                url
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a href=@item.Url>Event Link</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GenreName)
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>
