@@ -9,12 +9,15 @@ namespace TicketmasterAPI.Models
     public class DBModelContext : DbContext
     {
         public DbSet<Users> Users { get; set; }
-        public DbSet<Events> Events { get; set; }
+        public DbSet<FavEvents> Events { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = "Server=.\\SQLExpress;Database=Ticket;Trusted_Connection=True;";
+            string connectionString = "Server=.\\SQLExpress;Database=TicketDB;Trusted_Connection=True;";
             optionsBuilder.UseSqlServer(connectionString);
         }
+        public DBModelContext(DbContextOptions<DBModelContext> options)
+    : base(options)
+        { }
     }
 }
