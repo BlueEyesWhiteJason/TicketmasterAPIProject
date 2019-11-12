@@ -11,63 +11,67 @@ using TicketmasterAPI.Models;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
-using TicketmasterAPI.Models.TicketmasterAPI.Models;
 
 namespace TicketmasterAPI.Controllers
 {
     public class HomeController : Controller
     {
-        public string CallEventAPI(string KeyWord)
+        public string CallEventAPI()
         {
-            HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events.json?apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&keyword=" + KeyWord);
+            string key = "dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1";
+            HttpWebRequest request = WebRequest.CreateHttp($"https://app.ticketmaster.com/discovery/v2/events.json?size=10&apikey={key}");
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
             StreamReader rd = new StreamReader(response.GetResponseStream());
             string APIText = rd.ReadToEnd();
             return APIText;
         }
-        //public string CallEventDetailsAPI(int Id)
-        //{
-        //    HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events.json?apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&id=" + Id);
-        //    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-        //    StreamReader rd = new StreamReader(response.GetResponseStream());
-        //    string APIText = rd.ReadToEnd();
-        //    return APIText;
-        //}
+        
         public JToken Parseticketmaster(string text)
         {
             JToken output = JToken.Parse(text);
             return output;
         }
-        public IActionResult EvSearch()
-        {
-            return View();
-        }
-        [HttpPost]
-        // changed the title of this Action from EvSearch to EvDetails -Sam
-        public IActionResult EvDetail(string KeyWord)
-        {
-            string text = CallEventAPI(KeyWord);
-            JToken t = JToken.Parse(text);
 
-            List<EventDetails> Events = new List<EventDetails>();
-            List<JToken> e = t["_embedded"]["events"].ToList();
-            foreach (JToken x in e)
+        public List<Event> EventSearch(JToken t)
+        {
+            //this.KeyWord = t["keyword"].ToString();
+            List<Event> EventList = new List<Event>();
+            List<JToken> events = t["_embedded"]["events"].ToList();
+            foreach (JToken x in events)
             {
-                EventDetails y = new EventDetails(x);
-                Events.Add(y);
+                Event r = new Event();
+                r.Name = x["name"].ToString();
+                r.Url = x["url"].ToString();
+                r.City = x["_embedded"]["venues"][0]["city"]["name"].ToString();
+                r.State = x["_embedded"]["venues"][0]["state"]["stateCode"].ToString();
+                r.GenreName = x["classifications"][0]["genre"]["name"].ToString();
+                r.Date = x["dates"]["start"]["localDate"].ToString();
+                
+                EventList.Add(r);
             }
-            return View(Events);
+
+            return EventList;
         }
         public IActionResult Index()
         {
-            return View();
+            string eventText = CallEventAPI();
+            JToken t2 = Parseticketmaster(eventText);
+            List<Event> re = EventSearch(t2);
+            ViewBag.count = re.Count();
+
+            return View(re);
+            
         }
+
+            
+       
+
         public IActionResult Privacy()
         {
             return View();
         }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
