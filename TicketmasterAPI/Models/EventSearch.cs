@@ -9,25 +9,29 @@ namespace TicketmasterAPI.Models
 {
     public class EventSearch
     { [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string KeyWord { get; set; }
-
+       public string name { get; set; }
+       public string url { get; set; }
 
         public EventSearch()
         {
 
         }
-        public EventSearch(JToken t)
+       /* public EventSearch(JToken t)
         {
-            List<EventDetails> evt = new List<EventDetails>();
+            List<EventSearch> evt = new List<EventSearch>();
             foreach (JToken item in t["_embedded"]["events"])
             {
-                evt.Add(item["name"].ToString());
-
+                evt.Add(new EventSearch() {
+                    Id = item["id"].ToString(),
+                    name = item["name"].ToString(),
+                    url = item["url"].ToString()
+                });
                 
             }
             //this.Id = int.Parse(t["id"].ToString());
             //this.KeyWord = t["keyword"].ToString(); 
-        }
+        }*/
     }
 }

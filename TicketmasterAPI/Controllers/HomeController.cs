@@ -14,10 +14,11 @@ namespace TicketmasterAPI.Controllers
 {
     public class HomeController : Controller
     {
+       // List<EventSearch> evt = new List<EventSearch>();
          public string CallEventAPI(string KeyWord)
         {
             string key = "dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1";
-            HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events.json?size=1&apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&keyword="+KeyWord);
+            HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events.json?size=10&apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&keyword="+KeyWord);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
             StreamReader rd = new StreamReader(response.GetResponseStream());
@@ -44,16 +45,44 @@ namespace TicketmasterAPI.Controllers
         {
             return View();
         }
-        
-        public IActionResult SearchResult(string KeyWord)
-        {
-           string text = CallEventAPI(KeyWord);
-          JToken t = JToken.Parse(text);
-           EventSearch a = new EventSearch(t);
+        public List<EventSearch> FindEventSearch(JToken t)
+         {
+            List<EventSearch>  evt = new List<EventSearch>();
+            foreach (JToken item in t["_embedded"]["events"])
+            {
+                evt.Add(new EventSearch()
+                {
+                   // KeyWord = item["keyword"].ToString(),
+                    Id = item["id"].ToString(),
+                    name = item["name"].ToString(),
+                    url = item["url"].ToString()
+                });
 
-            return View(a);
+            }
+
+            return evt;
+            //this.Id = int.Parse(t["id"].ToString());
+            //this.KeyWord = t["keyword"].ToString(); 
         }
-       
+    
+    public IActionResult SearchResult(string KeyWord)
+        {
+          
+          string text = CallEventAPI(KeyWord);
+          JToken t = JToken.Parse(text);
+         // var EventList = new List<EventSearch>();
+
+          // EventSearch a = new EventSearch(t);
+          //EventList.Add(a);
+          //EventSearch b = new EventSearch(t);
+          //EventList.Add(b);
+           
+            return View(FindEventSearch(t));
+        }
+        public IActionResult Create()
+        {
+            return View();
+        }
         public IActionResult EvDetails()
         {
             return View();
