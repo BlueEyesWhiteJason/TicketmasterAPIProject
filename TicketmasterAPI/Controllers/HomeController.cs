@@ -26,16 +26,15 @@ namespace TicketmasterAPI.Controllers
             string APIText = rd.ReadToEnd();
             return APIText;
         }
-        public string CallEventDetailsAPI(int Id)
-        {
-            HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events.json?apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&id=" + Id);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+        //public string CallEventDetailsAPI(int Id)
+        //{
+        //    HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events.json?apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&id=" + Id);
+        //    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-            StreamReader rd = new StreamReader(response.GetResponseStream());
-            string APIText = rd.ReadToEnd();
-            return APIText;
-
-        }
+        //    StreamReader rd = new StreamReader(response.GetResponseStream());
+        //    string APIText = rd.ReadToEnd();
+        //    return APIText;
+        //}
         public JToken Parseticketmaster(string text)
         {
             JToken output = JToken.Parse(text);
@@ -59,46 +58,16 @@ namespace TicketmasterAPI.Controllers
                 EventDetails y = new EventDetails(x);
                 Events.Add(y);
             }
-
-            //List<EventDetails> events = new List<EventDetails>();
-            //List<JToken> e = t["events"].ToList();
-            //foreach(JToken j in e)
-            //{
-            //    EventDetails x = new EventDetails(j);
-            //    events.Add(x);
-            //}
-
-
-            //EventSearch a = new EventSearch(t);
             return View(Events);
         }
-        //public IActionResult EvDetail()
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //public IActionResult EvDetail(int Id)
-        //{
-            
-        //    string text = CallEventDetailsAPI(Id);
-        //    JToken t = JToken.Parse(text);
-        //    EventDetails d = new EventDetails(t);
-
-        //    return View(d);
-        //}
         public IActionResult Index()
         {
             return View();
         }
-
-            
-       
-
         public IActionResult Privacy()
         {
             return View();
         }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
