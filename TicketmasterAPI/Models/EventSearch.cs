@@ -11,8 +11,8 @@ namespace TicketmasterAPI.Models
     { [Key]
         public string Id { get; set; }
         public string KeyWord { get; set; }
-       public string name { get; set; }
-       public string url { get; set; }
+       public string Name { get; set; }
+       public string Url { get; set; }
 
         public EventSearch()
         {

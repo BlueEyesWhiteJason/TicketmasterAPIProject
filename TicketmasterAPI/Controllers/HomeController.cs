@@ -54,8 +54,8 @@ namespace TicketmasterAPI.Controllers
                 {
                    // KeyWord = item["keyword"].ToString(),
                     Id = item["id"].ToString(),
-                    name = item["name"].ToString(),
-                    url = item["url"].ToString()
+                    Name = item["name"].ToString(),
+                    Url = item["url"].ToString()
                 });
 
             }
