@@ -59,9 +59,13 @@ namespace TicketmasterAPI.Controllers
                     EventList.Add(r);
                 }
             }
-            catch (Exception e)
+            catch (NullReferenceException e)
             {
-                ViewBag.resultless = "Your search didn't return any results, please try again.";
+                if(EventList.Count == 0)
+                {
+                    ViewBag.resultless = "Your search didn't return any results, please try again.";
+
+                }
 
             }
 
