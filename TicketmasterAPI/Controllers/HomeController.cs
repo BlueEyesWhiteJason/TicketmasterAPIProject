@@ -16,6 +16,12 @@ namespace TicketmasterAPI.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly DBModelContext _context;
+
+        public HomeController(DBModelContext context)
+        {
+            _context = context;
+        }
         public string CallEventAPI()
         {
             string key = "dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1";
@@ -26,7 +32,7 @@ namespace TicketmasterAPI.Controllers
             string APIText = rd.ReadToEnd();
             return APIText;
         }
-        
+
         public JToken Parseticketmaster(string text)
         {
             JToken output = JToken.Parse(text);
@@ -64,7 +70,11 @@ namespace TicketmasterAPI.Controllers
             
         }
 
-            
+        public IActionResult addFavorite(string url)
+        {
+
+            return View();
+        }
        
 
         public IActionResult Privacy()

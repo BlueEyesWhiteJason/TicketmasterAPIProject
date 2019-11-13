@@ -1,22 +1,6 @@
 ﻿@model List<Event>
 
-@{
-    ViewData["Title"] = "Index";
-}
-pooperdoo
-<h1>shoot</h1>
-@ViewBag.count
 
-@foreach (var item in Model)
-{
-    <div>
-        @Html.DisplayFor(modelItem => item.Name)
-    </div>
-}
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -47,6 +31,11 @@ pooperdoo
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.GenreName)
+            </td>
+            <td>
+                @Html.ActionLink("Favorite", "addFavorite", "FavEvents",
+               new { name = item.Name, url=item.Url, city=item.City,
+                   state =item.State, date=item.Date, genreName=item.GenreName }, null)
             </td>
 
         </tr>
