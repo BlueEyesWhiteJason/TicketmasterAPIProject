@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -8,102 +8,93 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using TicketmasterAPI.Models;
-
+using System.Net;
+using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace TicketmasterAPI.Controllers
 {
     public class HomeController : Controller
     {
-       // List<EventSearch> evt = new List<EventSearch>();
-         public string CallEventAPI(string KeyWord)
+        private readonly DBModelContext _context;
+
+        public HomeController(DBModelContext context)
         {
-            string key = "dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1";
-            HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events.json?size=10&apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&keyword="+KeyWord);
+            _context = context;
+        }
+      
+        public string CallEventAPI(string KeyWord)
+        {
+            HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events.json?apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&keyword=" + KeyWord);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
             StreamReader rd = new StreamReader(response.GetResponseStream());
             string APIText = rd.ReadToEnd();
             return APIText;
         }
-        public string CallEventDetailsAPI(int Id)
-        {
-            string key = "dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1";
-            HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events.json?apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&id=" + Id);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-            StreamReader rd = new StreamReader(response.GetResponseStream());
-            string APIText = rd.ReadToEnd();
-            return APIText;
-
-        }
-         public JToken Parseticketmaster(string text)
+        public JToken Parseticketmaster(string text)
         {
             JToken output = JToken.Parse(text);
             return output;
         }
-        public IActionResult EvSearch()
+
+        public List<Event> EventSearch(JToken t)
         {
-            return View();
-        }
-        public List<EventSearch> FindEventSearch(JToken t)
-         {
-            List<EventSearch>  evt = new List<EventSearch>();
-            foreach (JToken item in t["_embedded"]["events"])
+            //this.KeyWord = t["keyword"].ToString();
+            List<Event> EventList = new List<Event>();
+            try
             {
-                evt.Add(new EventSearch()
+                List<JToken> events = t["_embedded"]["events"].ToList();
+                foreach (JToken x in events)
                 {
-                   // KeyWord = item["keyword"].ToString(),
-                    Id = item["id"].ToString(),
-                    Name = item["name"].ToString(),
-                    Url = item["url"].ToString()
-                });
+                    Event r = new Event();
+                    r.Name = x["name"].ToString();
+                    r.Url = x["url"].ToString();
+                    r.City = x["_embedded"]["venues"][0]["city"]["name"].ToString();
+                    r.State = x["_embedded"]["venues"][0]["state"]["stateCode"].ToString();
+                    r.GenreName = x["classifications"][0]["genre"]["name"].ToString();
+                    r.Date = x["dates"]["start"]["localDate"].ToString();
+
+                    EventList.Add(r);
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                if(EventList.Count == 0)
+                {
+                    ViewBag.resultless = "Your search didn't return any results, please try again.";
+
+                }
 
             }
 
-            return evt;
-            //this.Id = int.Parse(t["id"].ToString());
-            //this.KeyWord = t["keyword"].ToString(); 
+            return EventList;
         }
-    
-    public IActionResult SearchResult(string KeyWord)
+        public IActionResult Index()
         {
-          
-          string text = CallEventAPI(KeyWord);
-          JToken t = JToken.Parse(text);
-         // var EventList = new List<EventSearch>();
-
-          // EventSearch a = new EventSearch(t);
-          //EventList.Add(a);
-          //EventSearch b = new EventSearch(t);
-          //EventList.Add(b);
-           
-            return View(FindEventSearch(t));
+        
+            return View(); 
         }
-        public IActionResult Create()
-        {
-            return View();
-        }
-        public IActionResult EvDetails()
+        public IActionResult SearchResult()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult EvDetails(int Id)
+        public IActionResult SearchResult(string KeyWord)
         {
+            string text = CallEventAPI(KeyWord);
+            JToken t = Parseticketmaster(text);
+            List<Event> Events = EventSearch(t);
             
-            string text = CallEventDetailsAPI(Id);
-            JToken t = JToken.Parse(text);
-            EventDetails d = new EventDetails(t);
-
-            return View(d);
+            return View(Events);
         }
-        public IActionResult Index()
+
+        public IActionResult addFavorite(string url)
         {
-           
+
             return View();
         }
-
-            
        
 
         public IActionResult Privacy()
