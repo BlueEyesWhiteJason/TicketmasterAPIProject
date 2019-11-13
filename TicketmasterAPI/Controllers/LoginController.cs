@@ -37,7 +37,7 @@ namespace TicketmasterAPI.Models
                 Response.Cookies.Append("username", u.UserName);
                 Response.Cookies.Append("password", u.Password);
 
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -57,7 +57,7 @@ namespace TicketmasterAPI.Models
                 if (u.UserName == Username && u.Password == Password)
                 {
                     Response.Cookies.Append("username", u.UserName);
-                    return RedirectToAction("Index", "Login");
+                    return RedirectToAction("Index", "Home");
                 }
 
             }
@@ -69,6 +69,10 @@ namespace TicketmasterAPI.Models
         public async Task<IActionResult> Index()
         {
             return View(await _context.Users.ToListAsync());
+        }
+        public IActionResult LoginSuccess()
+        {
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Login/Details/5

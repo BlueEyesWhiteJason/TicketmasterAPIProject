@@ -5,68 +5,70 @@
 @{
     ViewData["Title"] = "SearchResult";
 }
-    <h2>Search Results</h2>
- 
-<form action="SearchResult" method="post">
-    Search again:
-    <input type="text" name="KeyWord" required/>
-    <input type="submit" />
-</form>
+    <center>
+        <h2>Search Results</h2>
 
-@ViewBag.resultless
+        <form action="SearchResult" method="post">
+            Search again:
+            <input type="text" name="KeyWord" required />
+            <input type="submit" />
+        </form>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                City
-            </th>
-            <th>
-                State
-            </th>
-            <th>
-                Genre
-            </th>
-            <th>
-                Date
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                <a href=@item.Url>@Html.DisplayFor(modelItem => item.Name)</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.State)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GenreName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.ActionLink("Favorite", "addFavorite", "FavEvents",
-               new
-                    {
-                        name = item.Name,
-                        url = item.Url,
-                        city = item.City,
-                        state = item.State,
-                        date = item.Date,
-                        genreName = item.GenreName
-                    }, null)
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+        @ViewBag.resultless
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        City
+                    </th>
+                    <th>
+                        State
+                    </th>
+                    <th>
+                        Genre
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a href=@item.Url>@Html.DisplayFor(modelItem => item.Name)</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.City)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.State)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GenreName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Favorite", "addFavorite", "FavEvents",
+                           new
+                                {
+                                    name = item.Name,
+                                    url = item.Url,
+                                    city = item.City,
+                                    state = item.State,
+                                    date = item.Date,
+                                    genreName = item.GenreName
+                                }, null)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </center>

@@ -3,18 +3,31 @@
 @{
     ViewData["Title"] = "Index";
 }
+<center>
+    <h1 style="font-size:500%">
+        <font color="green">T</font>
+        <font color="yellow">i</font>
+        <font color="red">c</font>
+        <font color="blue">k</font>
+        <font color="purple">e</font>
+        <font color="orange">t</font>
+        <font color="red">m</font>
+        <font color="blue">a</font>
+        <font color="green">s</font>
+        <font color="purple">t</font>
+        <font color="orange">e</font>
+        <font color="yellow">r</font>
 
-<h2>Ticketmaster Event Search</h2>
-
-Looking for something to do? Enter a Keyword in the box below for a list of things that might interest you! <br />
+    </h1>
+    <font color="black">
+Looking for something to do? Enter a Keyword in the box below for a list of things that might interest you!</font> <br />
 
 <br />
 <br />
 
 
-
-
-<form action="Home/SearchResult" method="post">
-    <input type="text" name="KeyWord" required />
-    <input type="submit" />
-</form>
+    <form action="Home/SearchResult" method="post">
+        <input type="text" name="KeyWord" placeholder="" required />
+        <input type="submit" />
+    </form>
+</center>
