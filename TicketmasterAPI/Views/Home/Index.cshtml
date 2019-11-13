@@ -3,81 +3,11 @@
 @{
     ViewData["Title"] = "Index";
 }
+
+
+
 <form action="Home/SearchResult" method="post">
-    <h2>KeyWord</h2>
+    <h2>Search</h2>
     <input type="text" name="KeyWord" />
     <input type="submit" />
 </form>
-
-<h1>shoot</h1>
-@ViewBag.count
-
-@foreach (var item in Model)
-{
-    <div>
-        @Html.DisplayFor(modelItem => item.Name)
-    </div>
-}
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                City
-            </th>
-            <th>
-                State
-            </th>
-            <th>
-                Genre
-            </th>
-            <th>
-                Date
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    <a href=@item.Url>Event Link</a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.City)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.State)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GenreName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.ActionLink("Favorite", "addFavorite", "FavEvents",
-                   new
-                        {
-                            name = item.Name,
-                            url = item.Url,
-                            city = item.City,
-                       state = item.State,
-                            date = item.Date,
-                            genreName = item.GenreName
-                        }, null)
-                </td>
-
-            </tr>
-        }
-    </tbody>
-</table>
