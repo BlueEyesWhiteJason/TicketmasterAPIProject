@@ -22,16 +22,7 @@ namespace TicketmasterAPI.Controllers
         {
             _context = context;
         }
-        //public string CallEventAPI()
-        //{
-        //    string key = "dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1";
-        //    HttpWebRequest request = WebRequest.CreateHttp($"https://app.ticketmaster.com/discovery/v2/events.json?size=10&apikey={key}");
-        //    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-        //    StreamReader rd = new StreamReader(response.GetResponseStream());
-        //    string APIText = rd.ReadToEnd();
-        //    return APIText;
-        //}
+      
         public string CallEventAPI(string KeyWord)
         {
             HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events.json?apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&keyword=" + KeyWord);
@@ -52,29 +43,34 @@ namespace TicketmasterAPI.Controllers
         {
             //this.KeyWord = t["keyword"].ToString();
             List<Event> EventList = new List<Event>();
-            List<JToken> events = t["_embedded"]["events"].ToList();
-            foreach (JToken x in events)
+            try
             {
-                Event r = new Event();
-                r.Name = x["name"].ToString();
-                r.Url = x["url"].ToString();
-                r.City = x["_embedded"]["venues"][0]["city"]["name"].ToString();
-                r.State = x["_embedded"]["venues"][0]["state"]["stateCode"].ToString();
-                r.GenreName = x["classifications"][0]["genre"]["name"].ToString();
-                r.Date = x["dates"]["start"]["localDate"].ToString();
-                
-                EventList.Add(r);
+                List<JToken> events = t["_embedded"]["events"].ToList();
+                foreach (JToken x in events)
+                {
+                    Event r = new Event();
+                    r.Name = x["name"].ToString();
+                    r.Url = x["url"].ToString();
+                    r.City = x["_embedded"]["venues"][0]["city"]["name"].ToString();
+                    r.State = x["_embedded"]["venues"][0]["state"]["stateCode"].ToString();
+                    r.GenreName = x["classifications"][0]["genre"]["name"].ToString();
+                    r.Date = x["dates"]["start"]["localDate"].ToString();
+
+                    EventList.Add(r);
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.resultless = "Your search didn't return any results, please try again.";
+
             }
 
             return EventList;
         }
         public IActionResult Index()
         {
-            string eventText = CallEventAPI("Football");
-            JToken t2 = Parseticketmaster(eventText);
-            List<Event> re = EventSearch(t2);
-            ViewBag.count = re.Count();
-            return View(re); 
+        
+            return View(); 
         }
         public IActionResult SearchResult()
         {
@@ -84,16 +80,9 @@ namespace TicketmasterAPI.Controllers
         public IActionResult SearchResult(string KeyWord)
         {
             string text = CallEventAPI(KeyWord);
-            JToken t = JToken.Parse(text);
-
-            List<Event> Events = new List<Event>();
-            List<JToken> e = t["_embedded"]["events"].ToList();
-            foreach (JToken x in e)
-            {
-                Event y = new Event(x);
-                Events.Add(y);
-            }
-            ViewBag.count = Events.Count;
+            JToken t = Parseticketmaster(text);
+            List<Event> Events = EventSearch(t);
+            
             return View(Events);
         }
 

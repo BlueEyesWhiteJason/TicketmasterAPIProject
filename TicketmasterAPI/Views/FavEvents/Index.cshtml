@@ -17,8 +17,7 @@
                     @Html.DisplayNameFor(model => model.Date)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.GenreName)
-                </th>
+                    Event Type
                 <th>
                     @Html.DisplayNameFor(model => model.City)
                 </th>
@@ -49,7 +48,7 @@
                         @Html.DisplayFor(modelItem => item.State)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.DbId">Save to Favorites</a>
+                        <a asp-action="Delete" asp-route-id="@item.DbId">Remove</a>
                     </td>
                 </tr>
             }
