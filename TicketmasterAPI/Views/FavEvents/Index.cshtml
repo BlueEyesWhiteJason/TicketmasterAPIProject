@@ -4,11 +4,9 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Favorites</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -40,7 +38,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Url)
+                <a href=@item.Url>Event Link</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
@@ -55,9 +53,8 @@
                 @Html.DisplayFor(modelItem => item.State)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.DbId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.DbId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.DbId">Delete</a>
+                <a asp-action="Delete" asp-route-id="@item.DbId">Remove</a>
             </td>
         </tr>
 }

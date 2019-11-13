@@ -1,22 +1,6 @@
 ﻿@model List<Event>
 
-@{
-    ViewData["Title"] = "Index";
-}
-pooperdoo
-<h1>shoot</h1>
-@ViewBag.count
 
-@foreach (var item in Model)
-{
-    <div>
-        @Html.DisplayFor(modelItem => item.Name)
-    </div>
-}
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
