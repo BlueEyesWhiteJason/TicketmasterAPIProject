@@ -22,10 +22,19 @@ namespace TicketmasterAPI.Controllers
         {
             _context = context;
         }
-        public string CallEventAPI()
+        //public string CallEventAPI()
+        //{
+        //    string key = "dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1";
+        //    HttpWebRequest request = WebRequest.CreateHttp($"https://app.ticketmaster.com/discovery/v2/events.json?size=10&apikey={key}");
+        //    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+        //    StreamReader rd = new StreamReader(response.GetResponseStream());
+        //    string APIText = rd.ReadToEnd();
+        //    return APIText;
+        //}
+        public string CallEventAPI(string KeyWord)
         {
-            string key = "dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1";
-            HttpWebRequest request = WebRequest.CreateHttp($"https://app.ticketmaster.com/discovery/v2/events.json?size=10&apikey={key}");
+            HttpWebRequest request = WebRequest.CreateHttp("https://app.ticketmaster.com/discovery/v2/events.json?apikey=dW7a1zq6RyK4otyVGzTtIQtg6iMU53N1&keyword=" + KeyWord);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
             StreamReader rd = new StreamReader(response.GetResponseStream());
@@ -61,13 +70,31 @@ namespace TicketmasterAPI.Controllers
         }
         public IActionResult Index()
         {
-            string eventText = CallEventAPI();
+            string eventText = CallEventAPI("Football");
             JToken t2 = Parseticketmaster(eventText);
             List<Event> re = EventSearch(t2);
             ViewBag.count = re.Count();
+            return View(re); 
+        }
+        public IActionResult SearchResult()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult SearchResult(string KeyWord)
+        {
+            string text = CallEventAPI(KeyWord);
+            JToken t = JToken.Parse(text);
 
-            return View(re);
-            
+            List<Event> Events = new List<Event>();
+            List<JToken> e = t["_embedded"]["events"].ToList();
+            foreach (JToken x in e)
+            {
+                Event y = new Event(x);
+                Events.Add(y);
+            }
+            ViewBag.count = Events.Count;
+            return View(Events);
         }
 
         public IActionResult addFavorite(string url)
