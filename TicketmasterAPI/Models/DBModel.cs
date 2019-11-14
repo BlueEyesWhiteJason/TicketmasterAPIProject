@@ -26,6 +26,7 @@ namespace TicketmasterAPI.Models
         public string GenreName { get; set; }
         public string City { get; set; }
         public string State { get; set; } //use stateCode
+        public string UserName { get; set; }
         public List<Users> UserEvents { get; set; }
 
     }

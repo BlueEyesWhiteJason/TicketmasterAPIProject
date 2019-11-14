@@ -13,7 +13,7 @@ namespace TicketmasterAPI.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = "Server=.\\SQLExpress;Database=TicketDB;Trusted_Connection=True;";
+            string connectionString = "Server=.\\SQLExpress;Database=TicketDB1;Trusted_Connection=True;";
             optionsBuilder.UseSqlServer(connectionString);
         }
         public DBModelContext(DbContextOptions<DBModelContext> options)

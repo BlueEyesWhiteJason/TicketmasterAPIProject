@@ -27,7 +27,8 @@ namespace TicketmasterAPI.Models
                 Date = date,
                 GenreName = genreName,
                 State = state,
-                Url = url
+                Url = url,
+                UserName = Request.Cookies["username"].ToString()
             };
             if (ModelState.IsValid)
             {
@@ -42,7 +43,8 @@ namespace TicketmasterAPI.Models
         // GET: FavEvents
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Events.ToListAsync());
+            string UserName = Request.Cookies["username"].ToString();
+            return View(await _context.Events.Where(v=>v.UserName==UserName).ToListAsync());
         }
 
         // GET: FavEvents/Details/5

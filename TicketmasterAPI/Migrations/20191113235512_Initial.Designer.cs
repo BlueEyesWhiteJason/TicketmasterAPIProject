@@ -10,8 +10,8 @@ using TicketmasterAPI.Models;
 namespace TicketmasterAPI.Migrations
 {
     [DbContext(typeof(DBModelContext))]
-    [Migration("20191113232241_UserId")]
-    partial class UserId
+    [Migration("20191113235512_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

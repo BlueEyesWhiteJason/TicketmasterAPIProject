@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TicketmasterAPI.Models;
 
 namespace TicketmasterAPI.Migrations
 {
     [DbContext(typeof(DBModelContext))]
-    partial class DBModelContextModelSnapshot : ModelSnapshot
+    [Migration("20191114000124_Initial3")]
+    partial class Initial3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +39,7 @@ namespace TicketmasterAPI.Migrations
 
                     b.Property<string>("Url");
 
-                    b.Property<string>("UserName");
+                    b.Property<string>("UserId");
 
                     b.HasKey("DbId");
 
